@@ -20,11 +20,9 @@ from matplotlib import pyplot as plt
 import cufflinks as cf
 import warnings
 warnings.filterwarnings("ignore")
-!pip install statsmodels==0.13.2 --quiet
-!pip install pmdarima --quiet
-import pmdarima as pm
 
-!pip install tvdatafeed --quiet
+import pmdarima as pm
+import streamlit as st
 from tvDatafeed import TvDatafeed ,Interval
 
 # %matplotlib inline
@@ -785,8 +783,7 @@ plt.legend()
 
 """#FB PROPHET"""
 
-!pip install pystan~=2.14 --quiet
-!pip install fbprophet --quiet
+
 
 import fbprophet
 from fbprophet import Prophet
@@ -819,6 +816,4 @@ se = np.square(pred.loc[:, 'yhat'] - data2.y)
 mse = np.mean(se)
 rmse = np.sqrt(mse)
 rmse
-
-pip freeze
 
