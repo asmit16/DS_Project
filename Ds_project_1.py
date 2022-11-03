@@ -76,11 +76,10 @@ databoxplot['year'] = databoxplot['date'].str[:4].astype(int)
 databoxplot['date1'] = databoxplot['date'].str[5:]
 databoxplot
 
-databoxplot.info()
+
 
 years = pd.pivot_table(databoxplot,index = 'date1', values = 'close',columns='year', aggfunc = sum)
 
-years
 
 plt.figure(figsize = (20,8))
 years.boxplot()
@@ -100,36 +99,28 @@ plt.show()
 
 """# Taking care of outliers"""
 
-data
-
 data['returns percentage'] = ((data['close']/data['close'].shift(1)) -1)*100
 data['returns percentage'].hist(bins = 100, label = 'Stock', alpha = 0.5, figsize = (15,7))
 plt.legend()
 
-data
-
 datac = data.iloc[1:]
 x = datac['returns percentage']
-x
 
 plt.boxplot(x,vert=False)
 
 datac = datac[datac['returns percentage'] < 5]
 datac = datac[datac['returns percentage'] > -5]
-datac
 
 """# Sampling and Transformation"""
 
 timeseriesdf = data[['close']]
 timeseriessq = data['close']
-timeseriessq
 
 """#### Upsampling Data"""
 
 upsampled = timeseriessq.resample('H').mean()
 upsampled.head(25)
 
-upsampled.shape
 
 """#### Interpolate the missing value"""
 
@@ -153,7 +144,6 @@ downsampled.plot()
 """#### Tranformations"""
 
 # load and plot a time series
-timeseriesdf
 
 # line plot
 plt.subplot(221)
@@ -168,7 +158,6 @@ plt.show()
 """#### Square Root Transform"""
 
 dataframe = pd.DataFrame(np.sqrt(timeseriesdf.values), columns = ['close'])
-dataframe
 
 # line plot
 plt.subplot(221)
@@ -183,7 +172,6 @@ plt.show()
 """#### Log Transform"""
 
 dataframe = pd.DataFrame(np.log(timeseriesdf.values), columns = ['close'])
-dataframe
 
 # line plot
 plt.subplot(221)
@@ -198,7 +186,7 @@ plt.show()
 
 heatmapdata = data[['date','close']]
 heatmapdata['date'] = pd.to_datetime(heatmapdata['date'])
-heatmapdata
+
 
 # Extracting Day, weekday name, month name, year from the Date column using 
 # Date functions from pandas 
@@ -208,7 +196,7 @@ heatmapdata["year"] = heatmapdata['date'].dt.strftime("%Y") # year extraction
 heatmapdata["Day"] = heatmapdata['date'].dt.strftime("%d") # Day extraction
 heatmapdata["wkday"] = heatmapdata['date'].dt.strftime("%A") # weekday extraction
 
-heatmapdata
+
 
 heatmap_y_month = pd.pivot_table(data = heatmapdata,
                                  values = "close",
@@ -239,7 +227,6 @@ sns.lineplot(x="year",y="close",data=heatmapdata)
 """#### Splitting data"""
 
 data1 = heatmapdata
-data1
 
 data1['t'] = np.arange(1,data1.shape[0]+1)
 data1['t_square'] = np.square(data1.t)
@@ -247,7 +234,6 @@ data1['log_close'] = np.log(data1.close)
 data2 = pd.get_dummies(data1['month'])
 data1 = pd.concat([data1, data2],axis=1)
 data1 = data1.reset_index(drop = True)
-data1
 
 # Using 3/4th data for training and remaining for testing
 test_size = round(0.25 * (data1.shape[0]+1))
@@ -255,9 +241,6 @@ test_size = round(0.25 * (data1.shape[0]+1))
 Train = data1[:-test_size]
 Test = data1[-test_size:]
 
-Train
-
-Test
 
 """### Trying basic models"""
 
@@ -352,7 +335,6 @@ plt.figure(figsize = (20,8))
 
 plt.plot(data1[['close','forecasted_close']].reset_index(drop=True))
 
-data1
 
 """# Forecasting - Data Driven"""
 
@@ -446,7 +428,6 @@ plt.legend()
 ### Checking if the data is stationary or not
 """
 
-timeseriesdf
 
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.stattools import kpss
@@ -604,8 +585,6 @@ test_size = round((timeseriesdf.shape[0]) - 730)
 Train = timeseriesdf[:test_size]
 Test = timeseriesdf[test_size:]
 
-Test
-
 stepwise_model.fit(Train)
 
 future_forecast = stepwise_model.predict(n_periods=730)
@@ -723,9 +702,6 @@ test_size = round(0.25 * (dataset.shape[0]+1))
 train = dataset[:-test_size]
 valid = dataset[-test_size:]
 
-train
-
-valid
 
 #converting dataset into x_train and y_train
 from sklearn.preprocessing import MinMaxScaler
@@ -768,7 +744,6 @@ closing_price = scaler.inverse_transform(closing_price)
 
 # Results
 rms=np.sqrt(np.mean(np.power((valid-closing_price),2)))
-rms
 
 #for plotting
 plt.figure(figsize=(25,10))
@@ -792,17 +767,14 @@ data2['y'] = (data2['close'])
 data2 = data2[['ds','y']].reset_index(drop = True)
 data2.info()
 
-data2
-
 model = Prophet()
 model.fit(data2)
-model
+
 
 future = model.make_future_dataframe(periods = 730)
-future
 
 pred = model.predict(future)
-pred
+
 
 pred[['ds','yhat','yhat_lower','yhat_upper']].head()
 
