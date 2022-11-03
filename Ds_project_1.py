@@ -34,7 +34,8 @@ new = data['date'].str.split(' ',expand=True)
 data['date'] = new[0]
 data['date'] = pd.to_datetime(data['date'])
 data = data.set_index('date')
-data
+
+st.title("Stcck Data Forcasting")
 
 timeseriesdf = data[['close']]
 timeseriesdf
