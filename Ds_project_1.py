@@ -35,17 +35,13 @@ data['date'] = new[0]
 data['date'] = pd.to_datetime(data['date'])
 data = data.set_index('date')
 
-st.title("Stcck Data Forcasting")
+st.title("Stock Data Forcasting")
 
 timeseriesdf = data[['close']]
-timeseriesdf
+
 
 timeseriessq = data['close']
-timeseriessq
 
-data.info()
-
-data.index
 
 """# Visualisation"""
 
@@ -57,7 +53,7 @@ fig = cf.Figure(data=[cf.Candlestick(x=data.index,
                 close = data['close'])])
 fig.update_layout(xaxis_rangeslider_visible=False)
 fig.show()
-
+st.write(fig)
 plt.figure(figsize = (20,8))
 plt.plot(data.close)
 
