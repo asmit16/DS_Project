@@ -36,6 +36,7 @@ data['date'] = pd.to_datetime(data['date'])
 data = data.set_index('date')
 
 st.title("Stock Data Forcasting")
+st.sidebar.header('Input')
 
 timeseriesdf = data[['close']]
 
