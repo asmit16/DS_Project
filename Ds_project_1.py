@@ -225,31 +225,31 @@ def model(var):
     data = data.set_index('date',drop=False)
     
 
-heatmapdata = data[['date','close']]
-heatmapdata['date'] = pd.to_datetime(heatmapdata['date'])
+    heatmapdata = data[['date','close']]
+    heatmapdata['date'] = pd.to_datetime(heatmapdata['date'])
 # Extracting Day, weekday name, month name, year from the Date column using 
 # Date functions from pandas 
 
-heatmapdata["month"] = heatmapdata['date'].dt.strftime("%b") # month extraction
-heatmapdata["year"] = heatmapdata['date'].dt.strftime("%Y") # year extraction
-heatmapdata["Day"] = heatmapdata['date'].dt.strftime("%d") # Day extraction
-heatmapdata["wkday"] = heatmapdata['date'].dt.strftime("%A") # weekday extraction
+    heatmapdata["month"] = heatmapdata['date'].dt.strftime("%b") # month extraction
+    heatmapdata["year"] = heatmapdata['date'].dt.strftime("%Y") # year extraction
+    heatmapdata["Day"] = heatmapdata['date'].dt.strftime("%d") # Day extraction
+    heatmapdata["wkday"] = heatmapdata['date'].dt.strftime("%A") # weekday extraction
 
-heatmap_y_month = pd.pivot_table(data = heatmapdata,
+    heatmap_y_month = pd.pivot_table(data = heatmapdata,
                                  values = "close",
                                  index = "year",
                                  columns = "month",
                                  aggfunc = "mean",
                                  fill_value=0)
-heatmap_y_month1 = heatmap_y_month[['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']]
+    heatmap_y_month1 = heatmap_y_month[['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']]
 
-st.header('Model Based Forecast Result for {}'.format(var))
-st.subheader('Heatmap (Monthly avg)')
-fig = plt.figure(figsize=(20,10))
-sns.heatmap(heatmap_y_month1,annot=True,fmt="g",cmap = 'YlOrBr')
-plt.xlabel('Month')
-plt.ylabel('Year')
-st.pyplot(fig)
+    st.header('Model Based Forecast Result for {}'.format(var))
+    st.subheader('Heatmap (Monthly avg)')
+    fig = plt.figure(figsize=(20,10))
+    sns.heatmap(heatmap_y_month1,annot=True,fmt="g",cmap = 'YlOrBr')
+    plt.xlabel('Month')
+    plt.ylabel('Year')
+    st.pyplot(fig)
 
 # Boxplot for every
 st.subheader('Monthly Boxplot')
