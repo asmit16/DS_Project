@@ -53,13 +53,15 @@ fig = cf.Figure(data=[cf.Candlestick(x=data.index,
 fig.update_layout(xaxis_rangeslider_visible=False)
 fig.show()
 st.write(fig)
+
 plt.figure(figsize = (20,8))
-plt.plot(data.close)
+fig=plt.plot(data.close)
+st.write(fig)
 
 # create a histogram plot
 plt.rc("figure", figsize=(20,20))
-data.hist()
-
+fig=data.hist()
+st.write(fig)
 
 # create a boxplot of yearly data
 databoxplot = data
