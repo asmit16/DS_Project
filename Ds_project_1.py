@@ -38,7 +38,7 @@ add_bg_from_url()
 st.title(' Stock Market Data Forcasting 📉')
 st.header('Select Company Name From Below Dropdown')
 
-COMPANY = st.selectbox("Select Company from below list",(' ','HDFC','BANKNIFTY','3MINDIA','AARTIDRUGS','AARTIIND','AAVAS','ABB','ABCAPITAL','ABFRL','ACC',
+COMPANY = st.selectbox("Select Company from below list",('Select','HDFC','BANKNIFTY','3MINDIA','AARTIDRUGS','AARTIIND','AAVAS','ABB','ABCAPITAL','ABFRL','ACC',
 							   'ACCELYA','ADANIENT','ADANIGAS','ADANIGREEN','ADANIPORTS','ADANIPOWER','ADANITRANS','ADVENZYMES',
 							   'AEGISCHEM','AFFLE','AHLUCONT','AIAENG','AJANTPHARM','AKZOINDIA','ALKEM','ALKYLAMINE','ALLCARGO',
 							   'AMARAJABAT','AMBER','AMBUJACEM','APARINDS','APLAPOLLO','APLLTD','APOLLOHOSP','APOLLOTYRE','ARVINDFASN',
@@ -91,7 +91,7 @@ COMPANY = st.selectbox("Select Company from below list",(' ','HDFC','BANKNIFTY',
 							   'VIPIND','VMART','VOLTAS','VRLLOG','VSTIND','VTL','WABCOINDIA','WELCORP','WELSPUNIND','WHIRLPOOL',
 							   'WIPRO','WOCKPHARMA','YESBANK','ZEEL','ZENSARTECH','ZYDUSWELL'))
 
-MODEL = st.selectbox('Select Forecasting Model From List',(' ','Model Based','Data Driven','ARIMA','LSTM Artificial Neural Network','FB Prophet'))
+MODEL = st.selectbox('Select Forecasting Model From List',('Select','Model Based','Data Driven','ARIMA','LSTM Artificial Neural Network','FB Prophet'))
 
 ##########################################################################################################################################
 
