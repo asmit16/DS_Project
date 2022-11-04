@@ -678,25 +678,19 @@ def fb(var):
     rmse = np.sqrt(mse)
 
 ##########################################################################################################################################
-with col1:
-    baseplots(COMPANY) 
+baseplots(COMPANY) 
 
 if MODEL == 'Model Based':
-	with col1:
-    	    model(COMPANY)
+    model(COMPANY)
 	
 if MODEL == 'Data Driven':
-	with col1:
-    	    datad(COMPANY)
+    datad(COMPANY)
 
 if MODEL == 'ARIMA':
-	with col1:
-    	    arima(COMPANY)
+    arima(COMPANY)
 	
 if MODEL == 'LSTM Artificial Neural Network':
-	with col1:
-    	    lstm(COMPANY)
+    lstm(COMPANY)
 	
 if MODEL == 'FB Prophet':
-	with col1:
-    	    fb(COMPANY) 
+    fb(COMPANY) 
