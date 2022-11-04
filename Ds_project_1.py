@@ -74,9 +74,6 @@ databoxplot['date'] = new[0]
 databoxplot = databoxplot[['date','close']]
 databoxplot['year'] = databoxplot['date'].str[:4].astype(int)
 databoxplot['date1'] = databoxplot['date'].str[5:]
-databoxplot
-
-
 
 years = pd.pivot_table(databoxplot,index = 'date1', values = 'close',columns='year', aggfunc = sum)
 
@@ -119,16 +116,13 @@ timeseriessq = data['close']
 """#### Upsampling Data"""
 
 upsampled = timeseriessq.resample('H').mean()
-upsampled.head(25)
 
 
 """#### Interpolate the missing value"""
 
 interpolated = upsampled.interpolate(method='linear')
-interpolated.head(25)
 
 plt.rc("figure", figsize=(20,8))
-interpolated.plot()
 
 """#### Downsampling Data"""
 
@@ -136,10 +130,10 @@ interpolated.plot()
 resample = timeseriessq.resample('Q')
 downsampled = resample.mean()
 
-downsampled.head()
+
 
 plt.rc("figure", figsize=(20,8))
-downsampled.plot()
+
 
 """#### Tranformations"""
 
@@ -167,20 +161,12 @@ plt.plot(dataframe['close'])
 plt.subplot(222)
 plt.hist(dataframe['close'])
 
-plt.show()
+
 
 """#### Log Transform"""
 
 dataframe = pd.DataFrame(np.log(timeseriesdf.values), columns = ['close'])
 
-# line plot
-plt.subplot(221)
-plt.plot(dataframe['close'])
-
-# histogram
-plt.subplot(222)
-plt.hist(dataframe['close'])
-plt.show()
 
 """# Forecasting - Model Based"""
 
