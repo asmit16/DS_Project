@@ -389,21 +389,17 @@ plt.show()
 
 """### Augmented Dickey-Fuller Test"""
 
-result=adfuller (timeseriesdf['close'])
-st.write(print('Test Statistic: %f' %result[0]))
-st.write(print('p-value: %f' %result[1]))
-st.write(print('Critical values:'))
-for key, value in result[4].items ():
-    st.write(print('\t%s: %.3f' %(key, value)))
+result=adfuller (data['close'])
+st.text('Test Statistic: %f' %result[0])
+st.text('p-value: %f' %result[1])
 
-"""### Kwiatkowski Phillips Schmidt Shin (KPSS) test"""
+st.write('**Determining stationarity of the dataset using Kwiatkowski Phillips Schmidt Shin (KPSS) test**')
+result_kpss_ct=kpss(data['close'],regression="ct")
+st.text('Test Statistic: %f' %result_kpss_ct[0])
+st.text('p-value: %f' %result_kpss_ct[1])
 
-result_kpss_ct=kpss(timeseriesdf['close'],regression="ct")
-st.write(print('Test Statistic: %f' %result_kpss_ct[0]))
-st.write(print('p-value: %f' %result_kpss_ct[1]))
-st.write(print('Critical values:'))
-for key, value in result_kpss_ct[3].items():
-    st.write(print('\t%s: %.3f' %(key, value)))
+st.write('**_Test statistic value greater than 0.05 for both ADFuller and KPSS indicate non-stationarity of the data_**')
+
 
 ## Test Statistic in both Tests is greater than standard 0.05
 ## Hence the data can be classified as not Stationary
