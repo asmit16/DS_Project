@@ -142,6 +142,7 @@ def baseplots(var):
 
 
 # create a boxplot of yearly data
+    st.subheader('Boxplot for {}'.format(var))
     databoxplot = data
     databoxplot['date'] = databoxplot.index.astype(str)
     new = databoxplot['date'].str.split(' ',expand=True)
