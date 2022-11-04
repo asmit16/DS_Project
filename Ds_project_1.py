@@ -387,7 +387,7 @@ plt.tick_params(
     labelbottom=False) 
 plt.show()
 
-"""### Augmented Dickey-Fuller Test"""
+#"""### Augmented Dickey-Fuller Test"""
 
 result=adfuller (data['close'])
 st.text('Test Statistic: %f' %result[0])
