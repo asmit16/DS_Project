@@ -344,33 +344,29 @@ rmsehwma=RMSE(pred_hwe_mul_add,Test.close)
 #"""### Final Model by combining train and test"""
 
 datamodel1 = {"MODEL":pd.Series(["rmse_ses","rmse_hw","rmse_hwe_add_add","rmse_hwe_mul_add"]),"RMSE_Values":pd.Series([rmseses,rmsehw,rmsehwaa,rmsehwma])}
-
-    table_rmse1 = pd.DataFrame(datamodel1)
-
-    table1 = table_rmse1.sort_values(['RMSE_Values'],ignore_index = True)
-
-    bestmodel1 = table1.iloc[0,0]
-
-    if bestmodel1 == "rmse_hwe_add_add" :
-        formula1 = ExponentialSmoothing(data["close"],seasonal="add",trend="add",seasonal_periods=365).fit()
-    if bestmodel1 == "rmse_hwe_mul_add":
-        formula1 = ExponentialSmoothing(data["close"],seasonal="mul",trend="add",seasonal_periods=365).fit()
-    if bestmodel1 == "rmse_ses" :
-        formula1 = SimpleExpSmoothing(data["close"]).fit(smoothing_level=0.2)
-    if bestmodel1 == "rmse_hw":
-        formula1 = Holt(data["close"]).fit(smoothing_level=0.8, smoothing_slope=0.2)
+table_rmse1 = pd.DataFrame(datamodel1)
+table1 = table_rmse1.sort_values(['RMSE_Values'],ignore_index = True)
+bestmodel1 = table1.iloc[0,0]
+if bestmodel1 == "rmse_hwe_add_add" :
+    formula1 = ExponentialSmoothing(data["close"],seasonal="add",trend="add",seasonal_periods=365).fit()
+if bestmodel1 == "rmse_hwe_mul_add":
+    formula1 = ExponentialSmoothing(data["close"],seasonal="mul",trend="add",seasonal_periods=365).fit()
+if bestmodel1 == "rmse_ses" :
+    formula1 = SimpleExpSmoothing(data["close"]).fit(smoothing_level=0.2)
+if bestmodel1 == "rmse_hw":
+    formula1 = Holt(data["close"]).fit(smoothing_level=0.8, smoothing_slope=0.2)
     
     #Forecasting for next 12 time periods
-    forecasted = formula1.forecast(730)
+forecasted = formula1.forecast(730)
 
-    st.subheader('Best Holt Winters Model')
-    fig = plt.figure(figsize=(20,8))
-    plt.plot(data1.close, label = "Actual")
-    plt.plot(forecasted, label = "Forecasted")
-    plt.xlabel('No.of Days')
-    plt.ylabel('Stock Price')
-    plt.legend()
-    st.pyplot(fig)
+st.subheader('Best Holt Winters Model')
+fig = plt.figure(figsize=(20,8))
+plt.plot(data1.close, label = "Actual")
+plt.plot(forecasted, label = "Forecasted")
+plt.xlabel('No.of Days')
+plt.ylabel('Stock Price')
+plt.legend()
+st.pyplot(fig)
 
 """# Forecasting using ARIMA,SARIMA and SARIMAX model
 
