@@ -44,8 +44,6 @@ timeseriesdf = data[['close']]
 timeseriessq = data['close']
 
 
-"""# Visualisation"""
-
 plt.figure(figsize=(20,8))
 fig = cf.Figure(data=[cf.Candlestick(x=data.index, 
                 open=data['open'],
@@ -58,13 +56,10 @@ st.write(fig)
 plt.figure(figsize = (20,8))
 plt.plot(data.close)
 
-"""#### Histogram and Density Plots"""
-
 # create a histogram plot
 plt.rc("figure", figsize=(20,20))
 data.hist()
 
-"""#### Box and Whisker Plots by Interval"""
 
 # create a boxplot of yearly data
 databoxplot = data
@@ -126,21 +121,19 @@ plt.rc("figure", figsize=(20,8))
 plt.subplot(221)
 plt.plot(timeseriesdf)
 
-# histogram
+
 plt.subplot(222)
 plt.hist(timeseriesdf)
 
 plt.show()
 
-"""#### Square Root Transform"""
 
 dataframe = pd.DataFrame(np.sqrt(timeseriesdf.values), columns = ['close'])
 
-# line plot
+
 plt.subplot(221)
 plt.plot(dataframe['close'])
 
-# histogram
 plt.subplot(222)
 plt.hist(dataframe['close'])
 
