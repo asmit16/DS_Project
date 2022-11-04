@@ -130,15 +130,7 @@ def baseplots(var):
 
     timeseriesdf = data[['close']]
     timeseriessq = data['close']
-    plt.figure(figsize=(20,8))
-    fig = cf.Figure(data=[cf.Candlestick(x=data.index, 
-                open=data['open'],
-                high = data['high'],
-                low = data['low'],
-                close = data['close'])])
-    fig.update_layout(xaxis_rangeslider_visible=False)
-    fig.show()
-    st.write(fig)
+ 
    
     fig=plt.figure(figsize = (20,8))
     plt.plot(data.close)
