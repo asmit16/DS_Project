@@ -81,20 +81,16 @@ years = pd.pivot_table(databoxplot,index = 'date1', values = 'close',columns='ye
 plt.figure(figsize = (20,8))
 years.boxplot()
 
-"""#### Lag plot"""
-
 # create a scatter plot
 plt.figure(figsize = (20,8))
 pd.plotting.lag_plot(timeseriesdf)
 
-# create an autocorrelation plot
 from statsmodels.graphics.tsaplots import plot_acf
 
 plt.rc("figure", figsize=(20,8))
 plot_acf(timeseriesdf, lags=4000)
 plt.show()
 
-"""# Taking care of outliers"""
 
 data['returns percentage'] = ((data['close']/data['close'].shift(1)) -1)*100
 data['returns percentage'].hist(bins = 100, label = 'Stock', alpha = 0.5, figsize = (15,7))
@@ -108,25 +104,18 @@ plt.boxplot(x,vert=False)
 datac = datac[datac['returns percentage'] < 5]
 datac = datac[datac['returns percentage'] > -5]
 
-"""# Sampling and Transformation"""
 
 timeseriesdf = data[['close']]
 timeseriessq = data['close']
 
-"""#### Upsampling Data"""
 
 upsampled = timeseriessq.resample('H').mean()
 
-
-"""#### Interpolate the missing value"""
 
 interpolated = upsampled.interpolate(method='linear')
 
 plt.rc("figure", figsize=(20,8))
 
-"""#### Downsampling Data"""
-
-# downsample to quarterly intervals
 resample = timeseriessq.resample('Q')
 downsampled = resample.mean()
 
@@ -134,12 +123,6 @@ downsampled = resample.mean()
 
 plt.rc("figure", figsize=(20,8))
 
-
-"""#### Tranformations"""
-
-# load and plot a time series
-
-# line plot
 plt.subplot(221)
 plt.plot(timeseriesdf)
 
