@@ -103,9 +103,7 @@ datac = datac[datac['returns percentage'] > -5]
 timeseriesdf = data[['close']]
 timeseriessq = data['close']
 
-
 upsampled = timeseriessq.resample('H').mean()
-
 
 interpolated = upsampled.interpolate(method='linear')
 
@@ -114,32 +112,23 @@ plt.rc("figure", figsize=(20,8))
 resample = timeseriessq.resample('Q')
 downsampled = resample.mean()
 
-
-
 plt.rc("figure", figsize=(20,8))
 
 plt.subplot(221)
 plt.plot(timeseriesdf)
-
 
 plt.subplot(222)
 plt.hist(timeseriesdf)
 
 plt.show()
 
-
 dataframe = pd.DataFrame(np.sqrt(timeseriesdf.values), columns = ['close'])
-
 
 plt.subplot(221)
 plt.plot(dataframe['close'])
 
 plt.subplot(222)
 plt.hist(dataframe['close'])
-
-
-
-"""#### Log Transform"""
 
 dataframe = pd.DataFrame(np.log(timeseriesdf.values), columns = ['close'])
 
@@ -158,8 +147,6 @@ heatmapdata["year"] = heatmapdata['date'].dt.strftime("%Y") # year extraction
 heatmapdata["Day"] = heatmapdata['date'].dt.strftime("%d") # Day extraction
 heatmapdata["wkday"] = heatmapdata['date'].dt.strftime("%A") # weekday extraction
 
-
-
 heatmap_y_month = pd.pivot_table(data = heatmapdata,
                                  values = "close",
                                  index = "year",
@@ -167,7 +154,6 @@ heatmap_y_month = pd.pivot_table(data = heatmapdata,
                                  aggfunc = "mean",
                                  fill_value=0)
 heatmap_y_month1 = heatmap_y_month[['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']]
-heatmap_y_month1
 
 plt.figure(figsize=(20,10))
 sns.heatmap(heatmap_y_month1,
@@ -186,8 +172,6 @@ sns.boxplot(x="year",y="close",data=heatmapdata)
 
 sns.lineplot(x="year",y="close",data=heatmapdata)
 
-"""#### Splitting data"""
-
 data1 = heatmapdata
 
 data1['t'] = np.arange(1,data1.shape[0]+1)
@@ -202,9 +186,6 @@ test_size = round(0.25 * (data1.shape[0]+1))
 
 Train = data1[:-test_size]
 Test = data1[-test_size:]
-
-
-"""### Trying basic models"""
 
 #Linear Model
 import statsmodels.formula.api as smf 
