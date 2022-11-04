@@ -23,7 +23,7 @@ def add_bg_from_url():
          f"""
          <style>
          .stApp {{
-             background-image: url("https://tinyurl.com/driveimglink");
+             background-image: url("https://wallpapercave.com/download/forex-wallpapers-wp2116598");
              background-attachment: fixed;
 	     background-position: 25% 75%;
              background-size: cover
