@@ -252,7 +252,7 @@ def model(var):
     st.pyplot(fig)
 
 # Boxplot for every
-st.subheader('Monthly Boxplot')
+    st.subheader('Monthly Boxplot')
     fig = plt.figure(figsize=(20,10))
     sns.boxplot(x="month",y="close",data=heatmapdata, order = ["Jan", "Feb","Mar", "Apr","May", "Jun","Jul", "Aug","Sep", "Oct","Nov", "Dec"])
     plt.xlabel('Month')
@@ -279,7 +279,7 @@ st.subheader('Monthly Boxplot')
     data1 = data1.reset_index(drop = True)
 
 # Using 3/4th data for training and remaining for testing
- test_size = round(0.25 * (data1.shape[0]+1))
+    test_size = round(0.25 * (data1.shape[0]+1))
 
     Train = data1[:-test_size]
     Test = data1[-test_size:]
@@ -328,7 +328,7 @@ st.subheader('Monthly Boxplot')
     table = table_rmse.sort_values(['RMSE_Values'],ignore_index = True)
     st.write(table)
 
-bestmodel = table.iloc[0,0]
+    bestmodel = table.iloc[0,0]
 
     if bestmodel == "rmse_linear" :
         formula = 'close~t'
