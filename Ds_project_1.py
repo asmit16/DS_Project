@@ -56,12 +56,12 @@ st.write(fig)
 
 plt.figure(figsize = (20,8))
 fig=plt.plot(data.close)
-st.write(fig)
+st.pyplot(fig)
 
 # create a histogram plot
 plt.rc("figure", figsize=(20,20))
 fig=data.hist()
-st.write(fig)
+st.pyplot(fig)
 
 # create a boxplot of yearly data
 databoxplot = data
