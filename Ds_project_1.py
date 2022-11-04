@@ -628,7 +628,7 @@ def lstm(var):
     plt.legend()
     st.pyplot(fig)
 
-"""#FB PROPHET"""
+#"""#FB PROPHET"""
 
 def fb(var):
     tv = TvDatafeed()
