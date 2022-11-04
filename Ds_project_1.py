@@ -56,12 +56,12 @@ st.write(fig)
 
 fig=plt.figure(figsize = (20,8))
 plt.plot(data.close)
-st.pyplot(fig)
+
 
 # create a histogram plot
 fig=plt.rc("figure", figsize=(20,20))
 data.hist()
-st.pyplot(fig)
+
 
 # create a boxplot of yearly data
 databoxplot = data
@@ -75,8 +75,9 @@ databoxplot['date1'] = databoxplot['date'].str[5:]
 years = pd.pivot_table(databoxplot,index = 'date1', values = 'close',columns='year', aggfunc = sum)
 
 
-plt.figure(figsize = (20,8))
+fig=plt.figure(figsize = (20,8))
 years.boxplot()
+st.pyplot(fig)
 
 # create a scatter plot
 plt.figure(figsize = (20,8))
@@ -86,8 +87,6 @@ from statsmodels.graphics.tsaplots import plot_acf
 
 plt.rc("figure", figsize=(20,8))
 plot_acf(timeseriesdf, lags=4000)
-plt.show()
-
 
 data['returns percentage'] = ((data['close']/data['close'].shift(1)) -1)*100
 data['returns percentage'].hist(bins = 100, label = 'Stock', alpha = 0.5, figsize = (15,7))
@@ -109,7 +108,7 @@ upsampled = timeseriessq.resample('H').mean()
 
 interpolated = upsampled.interpolate(method='linear')
 
-plt.rc("figure", figsize=(20,8))
+#plt.rc("figure", figsize=(20,8))
 
 resample = timeseriessq.resample('Q')
 downsampled = resample.mean()
@@ -157,11 +156,13 @@ heatmap_y_month = pd.pivot_table(data = heatmapdata,
                                  fill_value=0)
 heatmap_y_month1 = heatmap_y_month[['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']]
 
-plt.figure(figsize=(20,10))
+fig=plt.figure(figsize=(20,10))
 sns.heatmap(heatmap_y_month1,
             annot=True,
             fmt="g",
             cmap = 'YlOrBr')
+
+st.pyplot(fig)
 
 # Boxplot for every
 plt.figure(figsize=(20,10))
