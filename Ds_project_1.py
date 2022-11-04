@@ -36,7 +36,7 @@ def add_bg_from_url():
 add_bg_from_url()
 
 st.title(' Stock Market Data Forcasting 📉')
-st.sidebar.header('Select Company Name From Below Dropdown')
+header('Select Company Name From Below Dropdown')
 
 COMPANY = st.sidebar.selectbox("Select Company from below list",('NIFTY','BANKNIFTY','3MINDIA','AARTIDRUGS','AARTIIND','AAVAS','ABB','ABCAPITAL','ABFRL','ACC',
 							   'ACCELYA','ADANIENT','ADANIGAS','ADANIGREEN','ADANIPORTS','ADANIPOWER','ADANITRANS','ADVENZYMES',
