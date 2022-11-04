@@ -36,9 +36,9 @@ def add_bg_from_url():
 add_bg_from_url()
 
 st.title(' Stock Market Data Forcasting 📉')
-header('Select Company Name From Below Dropdown')
+st.header('Select Company Name From Below Dropdown')
 
-COMPANY = st.sidebar.selectbox("Select Company from below list",('NIFTY','BANKNIFTY','3MINDIA','AARTIDRUGS','AARTIIND','AAVAS','ABB','ABCAPITAL','ABFRL','ACC',
+COMPANY = st.selectbox("Select Company from below list",('NIFTY','BANKNIFTY','3MINDIA','AARTIDRUGS','AARTIIND','AAVAS','ABB','ABCAPITAL','ABFRL','ACC',
 							   'ACCELYA','ADANIENT','ADANIGAS','ADANIGREEN','ADANIPORTS','ADANIPOWER','ADANITRANS','ADVENZYMES',
 							   'AEGISCHEM','AFFLE','AHLUCONT','AIAENG','AJANTPHARM','AKZOINDIA','ALKEM','ALKYLAMINE','ALLCARGO',
 							   'AMARAJABAT','AMBER','AMBUJACEM','APARINDS','APLAPOLLO','APLLTD','APOLLOHOSP','APOLLOTYRE','ARVINDFASN',
@@ -91,7 +91,7 @@ COMPANY = st.sidebar.selectbox("Select Company from below list",('NIFTY','BANKNI
 							   'VIPIND','VMART','VOLTAS','VRLLOG','VSTIND','VTL','WABCOINDIA','WELCORP','WELSPUNIND','WHIRLPOOL',
 							   'WIPRO','WOCKPHARMA','YESBANK','ZEEL','ZENSARTECH','ZYDUSWELL'))
 
-MODEL = st.sidebar.selectbox('Select Forecasting Model From List',('Model Based','Data Driven','ARIMA','LSTM Artificial Neural Network','FB Prophet'))
+MODEL = st.selectbox('Select Forecasting Model From List',('Model Based','Data Driven','ARIMA','LSTM Artificial Neural Network','FB Prophet'))
 
 col1, col2 = st.beta_columns((1,1))
 
