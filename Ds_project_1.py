@@ -134,7 +134,7 @@ plt.hist(dataframe['close'])
 dataframe = pd.DataFrame(np.log(timeseriesdf.values), columns = ['close'])
 
 
-"""# Forecasting - Model Based"""
+#"""# Forecasting - Model Based"""
 
 heatmapdata = data[['date','close']]
 heatmapdata['date'] = pd.to_datetime(heatmapdata['date'])
@@ -196,52 +196,48 @@ import statsmodels.formula.api as smf
 linear_model = smf.ols('close~t',data=Train).fit()
 pred_linear =  pd.Series(linear_model.predict(pd.DataFrame(Test['t'])))
 rmse_linear = np.sqrt(np.mean((np.array(Test['close'])-np.array(pred_linear))**2))
-rmse_linear
+
 
 #Exponential
 Exp = smf.ols('log_close~t',data=Train).fit()
 pred_Exp = pd.Series(Exp.predict(pd.DataFrame(Test['t'])))
 rmse_Exp = np.sqrt(np.mean((np.array(Test['close'])-np.array(np.exp(pred_Exp)))**2))
-rmse_Exp
+
 
 #Quadratic 
 Quad = smf.ols('close~t+t_square',data=Train).fit()
 pred_Quad = pd.Series(Quad.predict(Test[["t","t_square"]]))
 rmse_Quad = np.sqrt(np.mean((np.array(Test['close'])-np.array(pred_Quad))**2))
-rmse_Quad
+
 
 #Additive seasonality 
 add_sea = smf.ols('close~Jan+Feb+Mar+Apr+May+Jun+Jul+Aug+Sep+Oct+Nov',data=Train).fit()
 pred_add_sea = pd.Series(add_sea.predict(Test[['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov']]))
 rmse_add_sea = np.sqrt(np.mean((np.array(Test['close'])-np.array(pred_add_sea))**2))
-rmse_add_sea
 
 #Additive Seasonality Quadratic 
 add_sea_Quad = smf.ols('close~t+t_square+Jan+Feb+Mar+Apr+May+Jun+Jul+Aug+Sep+Oct+Nov',data=Train).fit()
 pred_add_sea_quad = pd.Series(add_sea_Quad.predict(Test[['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','t','t_square']]))
 rmse_add_sea_quad = np.sqrt(np.mean((np.array(Test['close'])-np.array(pred_add_sea_quad))**2))
-rmse_add_sea_quad
 
 ##Multiplicative Seasonality
 Mul_sea = smf.ols('log_close~Jan+Feb+Mar+Apr+May+Jun+Jul+Aug+Sep+Oct+Nov',data = Train).fit()
 pred_Mult_sea = pd.Series(Mul_sea.predict(Test))
 rmse_Mult_sea = np.sqrt(np.mean((np.array(Test['close'])-np.array(np.exp(pred_Mult_sea)))**2))
-rmse_Mult_sea
+
 
 #Multiplicative Additive Seasonality 
 Mul_Add_sea = smf.ols('log_close~t+Jan+Feb+Mar+Apr+May+Jun+Jul+Aug+Sep+Oct+Nov',data = Train).fit()
 pred_Mult_add_sea = pd.Series(Mul_Add_sea.predict(Test))
 rmse_Mult_add_sea = np.sqrt(np.mean((np.array(Test['close'])-np.array(np.exp(pred_Mult_add_sea)))**2))
-rmse_Mult_add_sea
 
 #Compare the results 
 datamodel = {"MODEL":pd.Series(["rmse_linear","rmse_Exp","rmse_Quad","rmse_add_sea","rmse_add_sea_quad","rmse_Mult_sea","rmse_Mult_add_sea"]),"RMSE_Values":pd.Series([rmse_linear,rmse_Exp,rmse_Quad,rmse_add_sea,rmse_add_sea_quad,rmse_Mult_sea,rmse_Mult_add_sea])}
 table_rmse=pd.DataFrame(datamodel)
 table = table_rmse.sort_values(['RMSE_Values'],ignore_index = True)
-table
+st.write(table)
 
 bestmodel = table.iloc[0,0]
-bestmodel
 
 if bestmodel == "rmse_linear" :
   formula = 'close~t'
@@ -264,25 +260,22 @@ if bestmodel == "rmse_Mult_sea":
 if bestmodel == "rmse_Mult_add_sea":
   formula = 'log_close~t+Jan+Feb+Mar+Apr+May+Jun+Jul+Aug+Sep+Oct+Nov'
 
-formula
-
 #Build the model on entire data set
 model_full = smf.ols(formula,data=data1).fit()
 
 pred_new  = pd.Series(model_full.predict(data1))
-pred_new
+
 
 if bestmodel == "rmse_Exp" or "rmse_Mult_sea" or "rmse_Mult_add_sea":
   data1["forecasted_close"] = pd.Series(np.exp(pred_new))
 else:
   data1["forecasted_close"] = pd.Series((pred_new))
 
-plt.figure(figsize = (20,8))
-
+fig=plt.figure(figsize = (20,8))
 plt.plot(data1[['close','forecasted_close']].reset_index(drop=True))
+st.pyplot(fig)
 
-
-"""# Forecasting - Data Driven"""
+#"""# Forecasting - Data Driven"""
 
 import statsmodels.graphics.tsaplots as tsa_plots
 from statsmodels.tsa.seasonal import seasonal_decompose
@@ -290,84 +283,94 @@ from statsmodels.tsa.holtwinters import SimpleExpSmoothing # SES
 from statsmodels.tsa.holtwinters import Holt # Holts Exponential Smoothing
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
-"""#### Moving Average """
+#"""#### Moving Average """
 
 x=20
 
-plt.figure(figsize=(24,7))
+fig=plt.figure(figsize=(24,7))
 data1['close'].plot(label="org")
 data1["close"].rolling(x).mean().plot(label=str(x))
 plt.legend(loc='best')
+st.pyplot(fig)
 
-plt.figure(figsize=(24,7))
+fig=plt.figure(figsize=(24,7))
 data1['close'].plot(label="org")
 for i in range(50,201,50):
     data1["close"].rolling(i).mean().plot(label=str(i))
 plt.legend(loc='best')
+st.pyplot(fig)
 
-"""#### Time series decomposition plot 
-
-"""
+#"""#### Time series decomposition plot """
 
 decompose_ts_add = seasonal_decompose(data1['close'], period = 365)
 decompose_ts_add.plot()
 
 plt.show()
 
-"""#### ACF plots and PACF plots
+#"""#### ACF plots and PACF plots
 
-"""
-
-tsa_plots.plot_acf(data1.close,lags=350)
-tsa_plots.plot_pacf(data1.close,lags=350)
-plt.show()
-
-"""### Evaluation Metric RMSE"""
+#"""### Evaluation Metric RMSE"""
 
 def RMSE(pred,org):
   MSE = np.square(np.subtract(org,pred)).mean()   
   return np.sqrt(MSE)
 
-"""### Simple Exponential Method
+#"""### Simple Exponential Method
 
-"""
 
 ses_model = SimpleExpSmoothing(Train["close"]).fit(smoothing_level=0.2)
 pred_ses = ses_model.predict(start = Test.index[0],end = Test.index[-1])
-RMSE(pred_ses,Test.close)
+rmseses=RMSE(pred_ses,Test.close)
 
-"""### Holt method """
+#"""### Holt method """
 
 # Holt method 
 hw_model = Holt(Train["close"]).fit(smoothing_level=0.8, smoothing_slope=0.2)
 pred_hw = hw_model.predict(start = Test.index[0],end = Test.index[-1])
-RMSE(pred_hw,Test.close)
+rmsehw=RMSE(pred_hw,Test.close)
 
-"""### Holts winter exponential smoothing with additive seasonality and additive trend
-
-"""
+#"""### Holts winter exponential smoothing with additive seasonality and additive trend
 
 hwe_model_add_add = ExponentialSmoothing(Train["close"],seasonal="add",trend="add",seasonal_periods=365).fit() #add the trend to the model
 pred_hwe_add_add = hwe_model_add_add.predict(start = Test.index[0],end = Test.index[-1])
-RMSE(pred_hwe_add_add,Test.close)
+rmsehwaa=RMSE(pred_hwe_add_add,Test.close)
 
-"""### Holts winter exponential smoothing with multiplicative seasonality and additive trend"""
+#"""### Holts winter exponential smoothing with multiplicative seasonality and additive trend"""
 
 hwe_model_mul_add = ExponentialSmoothing(Train["close"],seasonal="mul",trend="add",seasonal_periods=365).fit() 
 pred_hwe_mul_add = hwe_model_mul_add.predict(start = Test.index[0],end = Test.index[-1])
-RMSE(pred_hwe_mul_add,Test.close)
+rmsehwma=RMSE(pred_hwe_mul_add,Test.close)
 
-"""### Final Model by combining train and test"""
+#"""### Final Model by combining train and test"""
 
-hwe_model_mul_add = ExponentialSmoothing(data["close"],seasonal="add",trend="add",seasonal_periods=365).fit()
+datamodel1 = {"MODEL":pd.Series(["rmse_ses","rmse_hw","rmse_hwe_add_add","rmse_hwe_mul_add"]),"RMSE_Values":pd.Series([rmseses,rmsehw,rmsehwaa,rmsehwma])}
 
-#Forecasting for next 12 time periods
-forecasted = hwe_model_mul_add.forecast(730)
+    table_rmse1 = pd.DataFrame(datamodel1)
 
-plt.figure(figsize=(24,7))
-plt.plot(data1.close, label = "Actual")
-plt.plot(forecasted, label = "Forecasted")
-plt.legend()
+    table1 = table_rmse1.sort_values(['RMSE_Values'],ignore_index = True)
+
+    bestmodel1 = table1.iloc[0,0]
+
+    if bestmodel1 == "rmse_hwe_add_add" :
+        formula1 = ExponentialSmoothing(data["close"],seasonal="add",trend="add",seasonal_periods=365).fit()
+    if bestmodel1 == "rmse_hwe_mul_add":
+        formula1 = ExponentialSmoothing(data["close"],seasonal="mul",trend="add",seasonal_periods=365).fit()
+    if bestmodel1 == "rmse_ses" :
+        formula1 = SimpleExpSmoothing(data["close"]).fit(smoothing_level=0.2)
+    if bestmodel1 == "rmse_hw":
+        formula1 = Holt(data["close"]).fit(smoothing_level=0.8, smoothing_slope=0.2)
+    
+    #Forecasting for next 12 time periods
+    forecasted = formula1.forecast(730)
+
+    st.subheader('Best Holt Winters Model')
+    fig = plt.figure(figsize=(20,8))
+    plt.plot(data1.close, label = "Actual")
+    plt.plot(forecasted, label = "Forecasted")
+    plt.xlabel('No.of Days')
+    plt.ylabel('Stock Price')
+    plt.legend()
+    st.pyplot(fig)
 
 """# Forecasting using ARIMA,SARIMA and SARIMAX model
 
