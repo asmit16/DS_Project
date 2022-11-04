@@ -54,13 +54,13 @@ fig.update_layout(xaxis_rangeslider_visible=False)
 fig.show()
 st.write(fig)
 
-plt.figure(figsize = (20,8))
-fig=plt.plot(data.close)
+fig=plt.figure(figsize = (20,8))
+plt.plot(data.close)
 st.pyplot(fig)
 
 # create a histogram plot
-plt.rc("figure", figsize=(20,20))
-fig=data.hist()
+fig=plt.rc("figure", figsize=(20,20))
+data.hist()
 st.pyplot(fig)
 
 # create a boxplot of yearly data
