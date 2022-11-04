@@ -389,21 +389,21 @@ plt.show()
 
 """### Augmented Dickey-Fuller Test"""
 
-st.write(result=adfuller (timeseriesdf['close'])
-    print('Test Statistic: %f' %result[0])
-    print('p-value: %f' %result[1])
-    print('Critical values:')
-    for key, value in result[4].items ():
-        print('\t%s: %.3f' %(key, value)))
+result=adfuller (timeseriesdf['close'])
+st.write(print('Test Statistic: %f' %result[0]))
+st.write(print('p-value: %f' %result[1]))
+st.write(print('Critical values:'))
+for key, value in result[4].items ():
+    st.write(print('\t%s: %.3f' %(key, value)))
 
 """### Kwiatkowski Phillips Schmidt Shin (KPSS) test"""
 
-st.write(result_kpss_ct=kpss(timeseriesdf['close'],regression="ct")
-    print('Test Statistic: %f' %result_kpss_ct[0])
-    print('p-value: %f' %result_kpss_ct[1])
-    print('Critical values:')
-    for key, value in result_kpss_ct[3].items():
-        print('\t%s: %.3f' %(key, value)))
+result_kpss_ct=kpss(timeseriesdf['close'],regression="ct")
+st.write(print('Test Statistic: %f' %result_kpss_ct[0]))
+st.write(print('p-value: %f' %result_kpss_ct[1]))
+st.write(print('Critical values:'))
+for key, value in result_kpss_ct[3].items():
+    st.write(print('\t%s: %.3f' %(key, value)))
 
 ## Test Statistic in both Tests is greater than standard 0.05
 ## Hence the data can be classified as not Stationary
