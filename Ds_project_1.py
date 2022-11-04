@@ -389,42 +389,29 @@ plt.show()
 
 """### Augmented Dickey-Fuller Test"""
 
-result=adfuller (timeseriesdf['close'])
+st.write(result=adfuller (timeseriesdf['close'])
 print('Test Statistic: %f' %result[0])
 print('p-value: %f' %result[1])
 print('Critical values:')
 for key, value in result[4].items ():
-     print('\t%s: %.3f' %(key, value))
+     print('\t%s: %.3f' %(key, value)))
 
 """### Kwiatkowski Phillips Schmidt Shin (KPSS) test"""
 
-result_kpss_ct=kpss(timeseriesdf['close'],regression="ct")
+st.write(result_kpss_ct=kpss(timeseriesdf['close'],regression="ct")
 print('Test Statistic: %f' %result_kpss_ct[0])
 print('p-value: %f' %result_kpss_ct[1])
 print('Critical values:')
 for key, value in result_kpss_ct[3].items():
-     print('\t%s: %.3f' %(key, value))
+     print('\t%s: %.3f' %(key, value)))
 
 ## Test Statistic in both Tests is greater than standard 0.05
 ## Hence the data can be classified as not Stationary
 
-"""#### Trying to make data stationary"""
+#"""#### Trying to make data stationary"""
 
-''' 
-Steps that can be used to make data stationary
-    Log transforming of the data
-    Taking the square root of the data
-    Taking the cube root
-    Proportional change
+#''' 
 
-    The steps for transformation are simple, this project uses square root transformation.
-
-    Use NumPy’s square root function to transform the required column
-    Then shift the transformation by one using the “shift’ function.
-    Take the difference between both the original transformation and shift.
-    Steps 2 and 3 can be done by just using the pandas “diff” function.
-    
-'''
 #Transforming of the data
 
 df_log=np.sqrt(timeseriesdf['close'])
@@ -453,7 +440,7 @@ plt.tick_params(
     bottom=False,      
     top=False,        
     labelbottom=False) 
-plt.show()
+
 
 ## Values of both the test statistics is below the standard value of 0.05
 
@@ -467,7 +454,6 @@ plt.tick_params(
     top=False,        
     labelbottom=False)
 plt.legend()
-plt.show()
 
 df_diff
 
@@ -505,9 +491,6 @@ plt.tick_params(
     top=False,        
     labelbottom=False)
 plt.legend()
-plt.show()
-
-diff_v2ex
 
 stationarydf2 = diff_v2ex
 
@@ -523,7 +506,6 @@ stepwise_model = auto_arima(timeseriesdf, start_p=1, start_q=1,
                            stepwise=True)
 print(stepwise_model.aic())
 
-stepwise_model.summary()
 
 test_size = round((timeseriesdf.shape[0]) - 730)
 
@@ -533,16 +515,14 @@ Test = timeseriesdf[test_size:]
 stepwise_model.fit(Train)
 
 future_forecast = stepwise_model.predict(n_periods=730)
-future_forecast
 
 future_forecast1 = pd.DataFrame(index = Test.index,columns=['Prediction'])
 future_forecast1.Prediction = future_forecast.values
 future_forecast1
-plt.figure(figsize=(20,8))
+fig=plt.figure(figsize=(20,8))
 plt.plot(timeseriesdf.close)
 plt.plot(future_forecast1)
-
-
+st.pyplot(fig)
 
 from sklearn.metrics import mean_squared_error
 from statsmodels.tools.eval_measures import rmse
@@ -577,8 +557,9 @@ ARIMA_model = pm.auto_arima(data1['close'],
                       suppress_warnings=True,
                       stepwise=True)
 
-ARIMA_model.plot_diagnostics(figsize=(20,12))
+fig=ARIMA_model.plot_diagnostics(figsize=(20,12))
 plt.show()
+st.pyplot(fig)
 
 from pandas.tseries.frequencies import DAYS
 def forecast(ARIMA_model, periods=730):
@@ -593,7 +574,7 @@ def forecast(ARIMA_model, periods=730):
     upper_series = pd.Series(confint[:, 1], index=index_of_fc)
 
     # Plot
-    plt.figure(figsize=(15,7))
+    fig=plt.figure(figsize=(15,7))
     plt.plot(data["close"])
     plt.plot(fitted_series, color='darkgreen')
     plt.fill_between(lower_series.index, 
@@ -603,42 +584,13 @@ def forecast(ARIMA_model, periods=730):
 
     plt.title("ARIMA - Forecast of Close Price")
     plt.show()
+    st.pyplot(fig)
 
 forecast(ARIMA_model)
 
-"""# Naive Predictions / Persistence / Base model"""
-
-# evaluate a persistence model
-print('Dataset %d, Validation %d' % (len(Train), len(Test)))
-
-train = Train.close.values.astype('float32')
-
-test = Test.close.values.astype('float32')
-
-# walk-forward validation
-history = [x for x in train]
-history
-
-predictions = list()
-
-for i in range(len(test)):
-    yhat = history[-1]
-    predictions.append(yhat)
-    
-    # observation
-    obs = test[i]
-    history.append(obs)
-    
-    print('>Predicted=%.3f, Expected=%.3f' % (yhat, obs))
-
-# report performance
-rmse = sqrt(mean_squared_error(test, predictions))
-print('RMSE: %.3f' % rmse)
-
-"""#LSTM ANN"""
+#"""#LSTM ANN"""
 
 new_data=data.drop(['symbol','open','high','low','volume','date','returns percentage'],axis=1)
-new_data
 
 #creating train and test sets
 dataset = new_data
@@ -691,13 +643,14 @@ closing_price = scaler.inverse_transform(closing_price)
 rms=np.sqrt(np.mean(np.power((valid-closing_price),2)))
 
 #for plotting
-plt.figure(figsize=(25,10))
+fig=plt.figure(figsize=(25,10))
 train = dataset[:-test_size]
 valid = dataset[-test_size:]
 valid['Predictions'] = closing_price
 plt.plot(dataset['close'], label='original')
 plt.plot(valid['Predictions'],label='predicted')
 plt.legend()
+st.pyplot(fig)
 
 """#FB PROPHET"""
 
@@ -710,7 +663,7 @@ data2 = data
 data2['ds'] = pd.to_datetime(data['date'])
 data2['y'] = (data2['close'])
 data2 = data2[['ds','y']].reset_index(drop = True)
-data2.info()
+
 
 model = Prophet()
 model.fit(data2)
@@ -723,12 +676,13 @@ pred = model.predict(future)
 
 pred[['ds','yhat','yhat_lower','yhat_upper']].head()
 
-model.plot(pred)
+fig=model.plot(pred)
+st.pyplot(fig)
 
-model.plot_components(pred)
+fig=model.plot_components(pred)
+st.pyplot(fig)
 
 se = np.square(pred.loc[:, 'yhat'] - data2.y)
 mse = np.mean(se)
 rmse = np.sqrt(mse)
-rmse
 
